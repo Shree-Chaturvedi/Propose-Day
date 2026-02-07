@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(180deg, #0a2a66, #0f4aa8);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+/* FLOATING HEARTS */
+.heart {
+    position: fixed;
+    bottom: -50px;
+    color: red;
+    font-size: 22px;
+    animation: floatUp linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* CONTAINER */
+#container {
+    display: flex;
+    width: 600%;
+    height: 100vh;
+    transition: transform 1.2s cubic-bezier(.77,0,.18,1);
+}
+
+/* CARD */
+.page {
+    width: 100vw;
+    height: 100vh;
+    padding: 80px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    width: 80%;
+    max-width: 900px;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.card h1 {
+    font-size: 36px;
+    color: #0f4aa8;
+    margin-bottom: 25px;
+}
+
+.card p {
+    font-size: 22px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.nextBtn {
+    margin-top: 40px;
+    float: right;
+    padding: 14px 36px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4b6e;
+    color: white;
+    cursor: pointer;
+}
+
+/* FINAL BUTTONS */
+#choice {
+    margin-top: 40px;
+    position: relative;
+    height: 90px;
+}
+
+#yes {
+    background: #ff4b6e;
+    color: white;
+    padding: 14px 36px;
+    border-radius: 30px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#no {
+    background: #888;
+    color: white;
+    padding: 14px 36px;
+    border-radius: 30px;
+    border: none;
+    font-size: 20px;
+    position: absolute;
+    left: 220px;
+    top: 0;
+    cursor: pointer;
+    transition: transform 0.15s linear;
+}
+
+/* FINAL SCREEN */
+#final {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #0f4aa8, #02142f);
+    color: white;
+    font-size: 42px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+
+    <div class="page">
+        <div class="card">
+            <h1>Hey You ❤️</h1>
+            <p>
+                Somewhere between conversations and smiles,  
+                you slowly became someone special to me.
+            </p>
+            <button class="nextBtn" onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="card">
+            <h1>Something Changed ✨</h1>
+            <p>
+                You became the person I look forward to talking to,  
+                the one who feels easy, warm, and real.
+            </p>
+            <button class="nextBtn" onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="card">
+            <h1>You Feel Like Home 🫶</h1>
+            <p>
+                With you, silence feels comfortable  
+                and laughter feels natural.
+            </p>
+            <button class="nextBtn" onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="card">
+            <h1>The Truth 💖</h1>
+            <p>
+                I don’t want temporary feelings.  
+                I want something real, something lasting.
+            </p>
+            <button class="nextBtn" onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="card">
+            <h1>So Here It Is ❤️</h1>
+            <p>
+                Will you be my friend, my girlfriend,  
+                my wife, my partner, my valentine,  
+                my forever…  
+                <br><br>
+                <strong>my ShreeShakhi?</strong>
+            </p>
+
+            <div id="choice">
+                <button id="yes" onclick="accept()">YES ❤️</button>
+                <button id="no">NO 💔</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="final">She said YES 💍❤️</div>
+
+<script>
+let page = 0;
+const container = document.getElementById("container");
+
+function next() {
+    page++;
+    container.style.transform = `translateX(-${page * 100}vw)`;
+}
+
+/* FAST ESCAPING NO BUTTON */
+const noBtn = document.getElementById("no");
+
+document.addEventListener("mousemove", e => {
+    if (!noBtn || noBtn.offsetParent === null) return;
+
+    const rect = noBtn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < 180) {
+        const moveX = (Math.random() - 0.5) * 700;
+        const moveY = (Math.random() - 0.5) * 400;
+        noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    }
+});
+
+/* FLOATING HEARTS GENERATOR */
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 16 + "px";
+    heart.style.animationDuration = Math.random() * 5 + 6 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 11000);
+}, 400);
+
+function accept() {
+    document.getElementById("container").style.display = "none";
+    document.getElementById("final").style.display = "flex";
+}
+</script>
+
+</body>
+</html>
